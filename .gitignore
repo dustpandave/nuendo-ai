@@ -4,3 +4,4 @@ __pycache__/
 nuendo_script/dist/
 .pytest_cache/
 uv.lock
+*.zip

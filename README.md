@@ -32,10 +32,10 @@ Suno MCP / Soundly MCP ──▶ audio file or URL ──▶ nuendo_import_audio
 
 ### 2. Install
 ```bash
-git clone https://github.com/dustpandave/nuendo-claude.git ~/nuendo-claude
+git clone https://github.com/dustpandave/nuendo-ai.git ~/nuendo-ai
 ```
 ```bash
-cd ~/nuendo-claude && ./scripts/install.sh
+cd ~/nuendo-ai && ./scripts/install.sh
 ```
 This installs the Python environment (via `uv`) and copies the bridge script to
 `~/Documents/Steinberg/Nuendo/MIDI Remote/Driver Scripts/Local/Claude/Nuendo Bridge/`.
@@ -55,7 +55,7 @@ This installs the Python environment (via `uv`) and copies the bridge script to
 {
   "mcpServers": {
     "nuendo": {
-      "command": "/Users/YOU/nuendo-claude/.venv/bin/nuendo-mcp",
+      "command": "/Users/YOU/nuendo-ai/.venv/bin/nuendo-mcp",
       "env": { "NUENDO_IMPORT_OPTIONS_DIALOG": "1" }
     }
   }
@@ -63,7 +63,7 @@ This installs the Python environment (via `uv`) and copies the bridge script to
 ```
 **Claude Code**:
 ```bash
-claude mcp add nuendo -- ~/nuendo-claude/.venv/bin/nuendo-mcp
+claude mcp add nuendo -- ~/nuendo-ai/.venv/bin/nuendo-mcp
 ```
 Keep your Suno and Soundly MCP servers configured alongside it. Claude chains them: generate or search, get a file or URL, then `nuendo_import_audio`.
 
