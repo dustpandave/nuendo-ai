@@ -90,7 +90,8 @@ def test_generated_script_runs_in_mock_host(tmp_path):
     sys.path.insert(0, str(ROOT))
     from nuendo_script.build import build
     js = build(tmp_path)
-    r = subprocess.run(["node", str(ROOT / "tests" / "mock_host.js"), str(js)],
+    r = subprocess.run(["node", str(ROOT / "tests" / "mock_host.js"), str(js),
+                        f"{P.ACTION_CHANNEL}:{P.RESYNC_NOTE}"],
                        capture_output=True, text=True)
     assert r.returncode == 0, r.stderr
     info = json.loads(r.stdout)
@@ -99,6 +100,7 @@ def test_generated_script_runs_in_mock_host(tmp_path):
     hello = info["helloSysex"]
     assert hello[0] == 0xF0 and hello[-1] == 0xF7
     assert P.decode_event(hello[1:-1])["t"] == "hello"
+    assert info["resyncSent"] >= 1  # resync replays at least the hello
 
 
 def test_outgoing_midi_addresses(monkeypatch):

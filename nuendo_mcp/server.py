@@ -51,10 +51,18 @@ def nuendo_status() -> dict:
         bridge.connect()
     except Exception as e:  # noqa: BLE001
         return {"connected": False, "error": str(e)}
+    if bridge.state.hello is None:
+        bridge.request_resync()
+        bridge.wait_for_hello()
     snap = bridge.state.snapshot()
-    if not snap["connected"] and not snap["mixerBank"]:
-        snap["hint"] = ("No data from Nuendo yet. Check Studio > MIDI Remote shows "
-                        "'Claude Nuendo Bridge' as active, and that its ports are the IAC buses.")
+    if not snap["connected"]:
+        snap["hint"] = (
+            "The MIDI ports are open but the Claude Bridge script in Nuendo isn't answering. "
+            "Check: 1) Nuendo's lower zone > MIDI Remote tab lists 'Claude - Nuendo Bridge' "
+            "(if not, add it with + using the IAC ports); 2) Studio > MIDI Remote Manager > "
+            "Scripts > Script Console shows no errors; 3) its input is 'Claude to Nuendo' and "
+            "output 'Claude from Nuendo' (not swapped)."
+        )
     return snap
 
 

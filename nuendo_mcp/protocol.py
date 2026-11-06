@@ -51,6 +51,8 @@ ACTIONS = {
     "resetBank": (4, "BANK.mAction.mResetBank"),
 }
 
+RESYNC_NOTE = 127  # note on ACTION_CHANNEL: script re-sends hello + all cached state
+
 # parameter of the selected track -> CC on SELECTED_CHANNEL
 SELECTED = {
     "mVolume": 0,
@@ -104,6 +106,7 @@ def script_config() -> dict:
         "transport": TRANSPORT,
         "actionChannel": ACTION_CHANNEL,
         "actions": {k: list(v) for k, v in ACTIONS.items()},
+        "resyncNote": RESYNC_NOTE,
         "selectedChannel": SELECTED_CHANNEL,
         "selected": SELECTED,
         "sendLevelCC": SELECTED_SEND_LEVEL_CC,

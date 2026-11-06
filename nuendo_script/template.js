@@ -22,6 +22,7 @@ var host = page.mHostAccess
 
 // ------------------------------------------------------------------ feedback
 var lastSent = {}
+var cache = {}  // dedupeKey -> last SysEx sent, replayed on resync
 
 function send(activeDevice, obj, dedupeKey) {
   var s = JSON.stringify(obj)
@@ -35,7 +36,12 @@ function send(activeDevice, obj, dedupeKey) {
     data.push((c >> 14) & 0x7F, (c >> 7) & 0x7F, c & 0x7F)
   }
   data.push(0xF7)
+  if (dedupeKey) cache[dedupeKey] = data
   midiOutput.sendMidi(activeDevice, data)
+}
+
+function sendHello(activeDevice) {
+  send(activeDevice, { t: 'hello', v: 'Claude Bridge', commands: CONFIG.commands.length, bank: CONFIG.bankSize })
 }
 
 function attachFeedback(surfaceValue, base) {
@@ -174,8 +180,17 @@ for (var aName in CONFIG.actions) {
   page.makeActionBinding(ab.mSurfaceValue, action)
 }
 
+// ------------------------------------------------------------------- resync
+// The MCP server may start after Nuendo; it then asks for everything again.
+var resyncButton = makeNoteButton(CONFIG.actionChannel, CONFIG.resyncNote)
+resyncButton.mSurfaceValue.mOnProcessValueChange = function (activeDevice, value) {
+  if (value <= 0) return
+  sendHello(activeDevice)
+  for (var k in cache) midiOutput.sendMidi(activeDevice, cache[k])
+}
+
 // ---------------------------------------------------------------- lifecycle
 deviceDriver.mOnActivate = function (activeDevice) {
   lastSent = {}
-  send(activeDevice, { t: 'hello', v: 'Claude Bridge', commands: CONFIG.commands.length, bank: CONFIG.bankSize })
+  sendHello(activeDevice)
 }

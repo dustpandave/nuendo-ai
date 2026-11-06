@@ -24,8 +24,12 @@ function makeBinding(desc) {
   b.bindToNote = (ch, n) => { log.midi.push(['note', ch, n, desc]); return b }
   return b
 }
+const elementsByNote = {}
 function makeElement(kind) {
-  return { mSurfaceValue: { mMidiBinding: makeBinding(kind) } }
+  const el = { mSurfaceValue: { mMidiBinding: makeBinding(kind) } }
+  const orig = el.mSurfaceValue.mMidiBinding.bindToNote
+  el.mSurfaceValue.mMidiBinding.bindToNote = (ch, n) => { elementsByNote[ch + ':' + n] = el; return orig(ch, n) }
+  return el
 }
 
 const outputs = []
@@ -59,6 +63,10 @@ const fakeRequire = (m) => {
 }
 new Function('require', src)(fakeRequire)
 driver.ref.mOnActivate({})
+const before = log.sent.length
+const resync = elementsByNote[process.argv[3]]
+if (resync) resync.mSurfaceValue.mOnProcessValueChange({}, 1)
+const resyncSent = log.sent.length - before
 // Check MIDI addresses are unique
 const seen = new Set()
 for (const [kind, ch, n] of log.midi) {
@@ -73,4 +81,5 @@ console.log(JSON.stringify({
   actionBindings: log.actionBindings,
   midiBindings: log.midi.length,
   helloSysex: log.sent[0],
+  resyncSent,
 }))

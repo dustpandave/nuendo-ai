@@ -120,6 +120,18 @@ class Bridge:
             )
         self._out = mido.open_output(out_name)
         self._in = mido.open_input(in_name, callback=self._on_message)
+        self.request_resync()
+
+    def request_resync(self) -> None:
+        """Ask the script to re-send everything (it may have started before us)."""
+        self._tap(P.ACTION_CHANNEL, P.RESYNC_NOTE)
+
+    def wait_for_hello(self, timeout: float = 1.5) -> bool:
+        deadline = time.time() + timeout
+        with self.state.changed:
+            while self.state.hello is None and time.time() < deadline:
+                self.state.changed.wait(deadline - time.time())
+            return self.state.hello is not None
 
     def _on_message(self, msg) -> None:
         if msg.type == "sysex":
