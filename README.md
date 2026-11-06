@@ -19,6 +19,7 @@ Suno MCP / Soundly MCP ──▶ audio file or URL ──▶ nuendo_import_audio
 | Any menu item | `nuendo_menu` / `nuendo_list_menu` |
 | Select tracks by name, set volume (in dB), pan, mute, solo, arm, sends, quick controls | first 32 mixer channels, pageable |
 | Import audio (local file or URL) on a chosen track at a chosen position | via the Import dialog |
+| Place a whole cue sheet of sounds (e.g. Soundly results) at specific times | `nuendo_place_sounds` |
 | Generate MIDI: chord progressions, melodies/basslines, drum grids, then import | |
 | Read: track names, levels, mute/solo, selection, transport, cursor position | |
 | ❌ Read events/clips/plugins inside the project | Nuendo has no API for this. Tell Claude, or export (MIDI / track list) |
@@ -65,7 +66,18 @@ This installs the Python environment (via `uv`) and copies the bridge script to
 ```bash
 claude mcp add nuendo -- ~/nuendo-ai/.venv/bin/nuendo-mcp
 ```
-Keep your Suno and Soundly MCP servers configured alongside it. Claude chains them: generate or search, get a file or URL, then `nuendo_import_audio`.
+### Soundly (recommended)
+[soundly-mcp](https://github.com/1800doublegee/soundly-mcp) lets Claude search your **local** Soundly library. Install it with the MCP library pinned to v1 (it doesn't work with v2 yet):
+```bash
+git clone https://github.com/1800doublegee/soundly-mcp.git ~/soundly-mcp
+```
+```bash
+cd ~/soundly-mcp && uv tool install . --with "mcp<2"
+```
+Then add it next to `nuendo` in the config: `"soundly": { "command": "/Users/YOU/.local/bin/soundly-mcp" }`.
+Ask things like *"Design a heavy metal door slam at 00:01:12:00 on SFX 1–3"*. Claude searches Soundly, shows a cue sheet, and places the layers with `nuendo_place_sounds`.
+
+Keep your Suno MCP server configured alongside it too. Claude chains them: generate or search, get a file or URL, then `nuendo_import_audio`.
 
 Restart Claude and ask: *"What's in my Nuendo session?"*
 

@@ -22,15 +22,13 @@ from .midi_gen import build_midi
 WORK_DIR = Path(os.environ.get("NUENDO_CLAUDE_DIR", "~/Music/Nuendo Claude")).expanduser()
 IMPORT_OPTIONS_DIALOG = os.environ.get("NUENDO_IMPORT_OPTIONS_DIALOG", "1") != "0"
 
+_GUIDE = Path(__file__).resolve().parent.parent / "CLAUDE.md"
 mcp = FastMCP(
     "nuendo",
     instructions=(
         "Controls Steinberg Nuendo 13 through a MIDI Remote bridge script plus macOS UI "
-        "automation. Call nuendo_status first to see tracks, selection and position. "
-        "Tracks are addressed by name or mixer-bank slot (first 32 mixer channels; page "
-        "with nuendo_bank). Placing audio/MIDI = select track, locate, import. "
-        "Nothing here can read clip/event contents of the project; ask the user or use "
-        "exports when you need that."
+        "automation. Call nuendo_status first. It cannot read clip/event contents.\n\n"
+        + (_GUIDE.read_text() if _GUIDE.exists() else "")
     ),
 )
 bridge = Bridge()
@@ -290,6 +288,34 @@ def nuendo_import_audio(source: str, track: str | None = None, position: str | N
     it is selected first; if `position` is given the cursor moves there first (same
     format as nuendo_locate). The file lands on the selected track at the cursor."""
     return _place(_fetch(source), "audio", track, position)
+
+
+@mcp.tool()
+def nuendo_place_sounds(cues: list[dict], stop_on_error: bool = False) -> dict:
+    """Place several sounds in one go, like a cue sheet. Use it for sound-design
+    passes and for building sections from Soundly results.
+
+    cues: [{"source": "/path/or/url.wav", "track": "SFX 1", "position": "17.1.1.0",
+            "note": "door slam, layer 1"}, ...]
+      - source: local path (e.g. a Soundly search result's file path) or URL
+      - track: track name or bank slot; omit to keep the current selection
+      - position: bars ("17" / "17.3.1.0") or timecode ("00:01:02:10"),
+        in the format of Nuendo's primary time display
+    Cues run in order, so layers that should stack need separate tracks.
+    Returns what landed where."""
+    results = []
+    for n, cue in enumerate(cues, 1):
+        try:
+            r = _place(_fetch(cue["source"]), "audio", cue.get("track"), cue.get("position"))
+            results.append({"cue": n, "ok": True, "note": cue.get("note"),
+                            "file": r["imported"], "track": r["track"], "position": r["position"]})
+        except Exception as e:  # noqa: BLE001
+            results.append({"cue": n, "ok": False, "note": cue.get("note"), "error": str(e)})
+            if stop_on_error:
+                break
+        time.sleep(mac.DELAY)
+    return {"ok": all(r["ok"] for r in results), "placed": sum(r["ok"] for r in results),
+            "results": results}
 
 
 @mcp.tool()
