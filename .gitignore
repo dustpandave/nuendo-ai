@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.pyc
+nuendo_script/dist/
+.pytest_cache/
+uv.lock

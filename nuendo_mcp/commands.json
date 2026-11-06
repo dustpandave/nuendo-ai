@@ -1,0 +1,181 @@
+{
+  "_note": "Category/name pairs must match Nuendo's Key Commands dialog (Edit > Key Commands) exactly, in English. Unknown names simply do nothing. Add your own at the END of a group or in the 'custom' group, then re-run scripts/install.sh. Order = MIDI slot, so append rather than insert if you want existing slots stable.",
+  "groups": [
+    {
+      "group": "transport",
+      "commands": [
+        {"cat": "Transport", "name": "Start"},
+        {"cat": "Transport", "name": "Stop"},
+        {"cat": "Transport", "name": "Record"},
+        {"cat": "Transport", "name": "Cycle"},
+        {"cat": "Transport", "name": "Return to Zero"},
+        {"cat": "Transport", "name": "Go to Project End"},
+        {"cat": "Transport", "name": "Input Position", "help": "Puts the transport position field into edit mode (used by nuendo_locate)."},
+        {"cat": "Transport", "name": "Input Left Locator"},
+        {"cat": "Transport", "name": "Input Right Locator"},
+        {"cat": "Transport", "name": "To Left Locator"},
+        {"cat": "Transport", "name": "To Right Locator"},
+        {"cat": "Transport", "name": "Locate Next Marker"},
+        {"cat": "Transport", "name": "Locate Previous Marker"},
+        {"cat": "Transport", "name": "Locate Next Event"},
+        {"cat": "Transport", "name": "Locate Previous Event"},
+        {"cat": "Transport", "name": "Locate Selection"},
+        {"cat": "Transport", "name": "Locators to Selection"},
+        {"cat": "Transport", "name": "Set Left Locator"},
+        {"cat": "Transport", "name": "Set Right Locator"},
+        {"cat": "Transport", "name": "Insert Marker"},
+        {"cat": "Transport", "name": "Nudge Cursor Left"},
+        {"cat": "Transport", "name": "Nudge Cursor Right"},
+        {"cat": "Transport", "name": "Metronome On"},
+        {"cat": "Transport", "name": "Precount On"},
+        {"cat": "Transport", "name": "Punch In"},
+        {"cat": "Transport", "name": "Punch Out"}
+      ]
+    },
+    {
+      "group": "edit",
+      "commands": [
+        {"cat": "Edit", "name": "Undo"},
+        {"cat": "Edit", "name": "Redo"},
+        {"cat": "Edit", "name": "Cut"},
+        {"cat": "Edit", "name": "Copy"},
+        {"cat": "Edit", "name": "Paste"},
+        {"cat": "Edit", "name": "Paste at Origin"},
+        {"cat": "Edit", "name": "Delete"},
+        {"cat": "Edit", "name": "Duplicate"},
+        {"cat": "Edit", "name": "Repeat"},
+        {"cat": "Edit", "name": "Fill Loop"},
+        {"cat": "Edit", "name": "Split at Cursor"},
+        {"cat": "Edit", "name": "Split Loop"},
+        {"cat": "Edit", "name": "Glue"},
+        {"cat": "Edit", "name": "Group"},
+        {"cat": "Edit", "name": "Ungroup"},
+        {"cat": "Edit", "name": "Lock"},
+        {"cat": "Edit", "name": "Unlock"},
+        {"cat": "Edit", "name": "Mute"},
+        {"cat": "Edit", "name": "Unmute"},
+        {"cat": "Edit", "name": "Move to Cursor"},
+        {"cat": "Edit", "name": "Move to Front"},
+        {"cat": "Edit", "name": "Select All"},
+        {"cat": "Edit", "name": "Select None"},
+        {"cat": "Edit", "name": "Select All on Tracks"},
+        {"cat": "Edit", "name": "Select in Loop"},
+        {"cat": "Edit", "name": "Select from Cursor to End"},
+        {"cat": "Edit", "name": "Snap On/Off"},
+        {"cat": "Edit", "name": "Auto-Scroll"},
+        {"cat": "Edit", "name": "Insert Silence"},
+        {"cat": "Edit", "name": "Delete Time"},
+        {"cat": "Edit", "name": "Cut Time"},
+        {"cat": "Edit", "name": "Split Range"},
+        {"cat": "Edit", "name": "Crop Range"},
+        {"cat": "Edit", "name": "Convert to Real Copy"},
+        {"cat": "Edit", "name": "Shift Left"},
+        {"cat": "Edit", "name": "Shift Right"}
+      ]
+    },
+    {
+      "group": "audio",
+      "commands": [
+        {"cat": "Audio", "name": "Bounce"},
+        {"cat": "Audio", "name": "Crossfade"},
+        {"cat": "Audio", "name": "Remove Fades"},
+        {"cat": "Audio", "name": "Adjust Fades to Range"},
+        {"cat": "Audio", "name": "Fade In to Cursor"},
+        {"cat": "Audio", "name": "Fade Out to Cursor"},
+        {"cat": "Audio", "name": "Detect Silence"},
+        {"cat": "Audio", "name": "Find Selected in Pool"},
+        {"cat": "Audio", "name": "Create Slices from Hitpoints"},
+        {"cat": "Process", "name": "Normalize"},
+        {"cat": "Process", "name": "Reverse"},
+        {"cat": "Process", "name": "Gain"},
+        {"cat": "Process", "name": "Silence"},
+        {"cat": "Process", "name": "Phase Reverse"},
+        {"cat": "Process", "name": "Pitch Shift"},
+        {"cat": "Process", "name": "Time Stretch"},
+        {"cat": "Process", "name": "Remove DC Offset"},
+        {"cat": "Process", "name": "Fade In"},
+        {"cat": "Process", "name": "Fade Out"}
+      ]
+    },
+    {
+      "group": "midi",
+      "commands": [
+        {"cat": "Quantize Category", "name": "Quantize"},
+        {"cat": "Quantize Category", "name": "Reset Quantize"},
+        {"cat": "MIDI", "name": "Legato"},
+        {"cat": "MIDI", "name": "Delete Doubles"},
+        {"cat": "MIDI", "name": "Delete Overlaps (mono)"},
+        {"cat": "MIDI", "name": "Dissolve Part"},
+        {"cat": "MIDI", "name": "Merge MIDI in Loop"},
+        {"cat": "MIDI", "name": "Freeze MIDI Modifiers"},
+        {"cat": "Editors", "name": "Open Key Editor"},
+        {"cat": "Editors", "name": "Open Drum Editor"},
+        {"cat": "Editors", "name": "Open Score Editor"},
+        {"cat": "Editors", "name": "Open Sample Editor"},
+        {"cat": "Editors", "name": "Open/Close Editor"}
+      ]
+    },
+    {
+      "group": "tracks",
+      "commands": [
+        {"cat": "Add Track", "name": "Audio"},
+        {"cat": "Add Track", "name": "Instrument"},
+        {"cat": "Add Track", "name": "MIDI"},
+        {"cat": "Add Track", "name": "Group Channel"},
+        {"cat": "Add Track", "name": "FX Channel"},
+        {"cat": "Add Track", "name": "Folder"},
+        {"cat": "Add Track", "name": "Marker"},
+        {"cat": "Add Track", "name": "Arranger"},
+        {"cat": "Add Track", "name": "Chord"},
+        {"cat": "Add Track", "name": "Video"},
+        {"cat": "Project", "name": "Remove Selected Tracks"},
+        {"cat": "Project", "name": "Duplicate Tracks"},
+        {"cat": "Project", "name": "Disable Track"},
+        {"cat": "Project", "name": "Show Used Automation (Selected Tracks)"},
+        {"cat": "Project", "name": "Hide All Automation"},
+        {"cat": "Project", "name": "Folding: Toggle Selected Track"},
+        {"cat": "Project", "name": "Folding: Fold Tracks"},
+        {"cat": "Project", "name": "Folding: Unfold Tracks"},
+        {"cat": "Project", "name": "Bypass Inserts of Selected Tracks"},
+        {"cat": "Project", "name": "Freeze Selected Tracks"},
+        {"cat": "Project", "name": "Render in Place"}
+      ]
+    },
+    {
+      "group": "navigation",
+      "commands": [
+        {"cat": "Navigate", "name": "Up"},
+        {"cat": "Navigate", "name": "Down"},
+        {"cat": "Navigate", "name": "Left"},
+        {"cat": "Navigate", "name": "Right"},
+        {"cat": "Zoom", "name": "Zoom In"},
+        {"cat": "Zoom", "name": "Zoom Out"},
+        {"cat": "Zoom", "name": "Zoom Full"},
+        {"cat": "Zoom", "name": "Zoom to Selection"},
+        {"cat": "Zoom", "name": "Zoom In Vertically"},
+        {"cat": "Zoom", "name": "Zoom Out Vertically"}
+      ]
+    },
+    {
+      "group": "file_windows",
+      "commands": [
+        {"cat": "File", "name": "Save"},
+        {"cat": "File", "name": "Save New Version"},
+        {"cat": "File", "name": "Import Audio File", "help": "Opens the import dialog (used by nuendo_import_audio)."},
+        {"cat": "File", "name": "Import MIDI File"},
+        {"cat": "File", "name": "Export Audio Mixdown"},
+        {"cat": "Devices", "name": "Mixer"},
+        {"cat": "Devices", "name": "VST Instruments"},
+        {"cat": "Media", "name": "Open MediaBay"},
+        {"cat": "Media", "name": "Open Pool Window"},
+        {"cat": "Window Zones", "name": "Show/Hide Left Zone"},
+        {"cat": "Window Zones", "name": "Show/Hide Right Zone"},
+        {"cat": "Window Zones", "name": "Show/Hide Lower Zone"}
+      ]
+    },
+    {
+      "group": "custom",
+      "commands": []
+    }
+  ]
+}
